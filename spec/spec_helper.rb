@@ -8,6 +8,7 @@ require 'pathname'
 require 'net/ssh'
 require 'rspec/its'
 require './cfg/cfg_helper'
+set :backend, :exec
 
 # init SPEC_DIR so it can be used in specs
 SPEC_DIR = get_config_option('SPEC_DIR', './spec')
