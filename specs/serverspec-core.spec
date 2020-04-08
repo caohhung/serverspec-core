@@ -1,9 +1,10 @@
 %global install_dir /opt/gdc/serverspec-core
+%global scl rh-ruby26
 
 Name:             serverspec-core
 Summary:          GoodData ServerSpec integration
-Version:          1.9.13
-Release:          9%{?dist}.gdc1
+Version:          2.0.0
+Release:          1%{?dist}.gdc1
 
 Vendor:           GoodData
 Group:            GoodData/Tools
@@ -14,13 +15,19 @@ Source0:          %{name}.tar.gz
 BuildArch:        x86_64
 BuildRoot:        %{_tmppath}/%{name}-%{version}-root
 
-BuildRequires:    rubygem-bundler git ruby-devel gcc-c++
-Requires:         rubygem-bundler
+BuildRequires: %{scl}-ruby
+BuildRequires: %{scl}-ruby-devel
+BuildRequires: %{scl}-rubygem-rake
+BuildRequires: %{scl}-rubygem-bundler
+BuildRequires: git gcc-c++
+Requires:      %{scl}-rubygem-bundler
+# Requires:      puppet6 ruby2.6?
 
 %prep
 %setup -q -c
 
 %build
+source /opt/rh/%{scl}/enable
 bundle install --standalone --binstubs --without=development
 
 %install
@@ -67,6 +74,9 @@ GoodData ServerSpec integration - core package
 %exclude %{install_dir}/spec/types/.gitignore
 
 %changelog
+* Fri Apr 10 2020 Hung Cao <hung.cao@gooddata.com> - 2.0.0-1%{?dist}.gdc1
+- CONFIG: SETI-4110 Bump ruby version to 2.6
+
 * Thu Jan 02 2020 King Nguyen <king.nguyen@gooddata.com> - 1.9.13-9%{?dist}.gdc1
 - CONFIG: SETI-3728 Bump version of package to 1.9.13-9
 
